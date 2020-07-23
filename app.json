@@ -1,0 +1,12 @@
+{
+  "name": "hybridapp",
+  "displayName": "hybridapp",
+  "expo": {
+    "name": "hybridapp",
+    "slug": "hybridapp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
