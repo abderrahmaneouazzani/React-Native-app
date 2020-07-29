@@ -11,6 +11,7 @@ import Menu from './MenuComponent';
 import Dishdetail from './DishdetailComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Reservation from './ReservationComponent';
 
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
@@ -158,6 +159,34 @@ function ContactNavigatorScreen(){
 
 const AboutUsNavigator = createStackNavigator();
 
+function AboutUsNavigatorScreen(){
+    return(
+        <AboutUsNavigator.Navigator
+            initialRouteName='About Us'
+            screenOptions={HeaderOptions}
+        >
+            <AboutUsNavigator.Screen
+                name="About Us"
+                component={About}
+                options={
+                    ({navigation}) => ({
+                        headerLeft: () => (
+                            <Icon 
+                                name='About' 
+                                size={24}
+                                color='white'
+                                onPress={() => 
+                                    navigation.toggleDrawer()}
+                            />
+                        )
+                    
+                    })
+                 }
+            />
+        </AboutUsNavigator.Navigator>
+    );
+}
+
 const MenuIcon = (props) => {
     return(
         <Icon 
@@ -170,23 +199,32 @@ const MenuIcon = (props) => {
     );
 }
 
-function AboutUsNavigatorScreen(){
+const ReservationNavigator = createStackNavigator();
+
+function ReservationNavigatorScreen(){
     return(
-        <AboutUsNavigator.Navigator
-            initialRouteName='About Us'
+        <ReservationNavigator.Navigator
+            initialRouteName='Reservation'
             screenOptions={HeaderOptions}
         >
-            <AboutUsNavigator.Screen
-                name="About Us"
-                component={About}
+            <ReservationNavigator.Screen
+                name="Reservation"
+                component={Reservation}
                 options={
                     ({navigation}) => ({
-                        headerLeft: () => 
-                            <MenuIcon navigation={navigation}/>
+                        headerLeft: () => (
+                            <Icon 
+                                name='menu' 
+                                size={24}
+                                color='white'
+                                onPress={() => 
+                                    navigation.toggleDrawer()}
+                            />
+                        )
                     })
-                 }
+                }
             />
-        </AboutUsNavigator.Navigator>
+        </ReservationNavigator.Navigator>
 
     )
 }
@@ -252,6 +290,20 @@ function MainNavigatorDrawer() {
                     drawerIcon: ({tintColor}) => (
                         <Icon
                             name='info-circle'
+                            type='font-awesome'
+                            size={24}
+                            color={tintColor}
+                        />
+                    )
+                }}                
+            />
+            <MainNavigator.Screen 
+                name="Reservation"   
+                component={ReservationNavigatorScreen} 
+                options={{
+                    drawerIcon: ({tintColor}) => (
+                        <Icon
+                            name='cutlery'
                             type='font-awesome'
                             size={24}
                             color={tintColor}
