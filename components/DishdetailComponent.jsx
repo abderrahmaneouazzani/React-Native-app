@@ -1,11 +1,10 @@
 import React , {Component} from 'react';
-import  {View, Text, ScrollView, FlatList, StyleSheet,Button, Modal, Alert, PanResponder} from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Button, Alert, PanResponder, Share } from 'react-native';
 import  {Card, Icon, Rating, Input} from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import {connect} from 'react-redux';
 import {baseUrl} from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
-
 
 const mapStateToProps = state => {
     return{
@@ -40,6 +39,16 @@ function RenderDish (props){
          return true;
     };
     
+    const shareDish = (title, message, url) => {
+      Share.share({
+          title: title,
+          message: title + ': ' + message + ' ' + url,
+          url: url
+      },{
+          dialogTitle: 'Share ' + title
+      })
+  }
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder : (e, gestureState) => {
             return true;
@@ -142,7 +151,7 @@ function RenderDish (props){
                     <Text style={{margin:10}}>
                         {dish.description}
                     </Text>
-                    <Icon style={styles.iconAlignment}
+                    <Icon style={styles.cardItem}
                         raised
                         reverse
                         name={props.favorite?'heart':'heart-o'}
@@ -150,12 +159,21 @@ function RenderDish (props){
                         color='#f50'
                         onPress={()=> props.favorite?console.log('Already favorite!'):props.onPress()}
                     />
-                    <Icon  style={styles.iconAlignment}
+                    <Icon  style={styles.cardItem}
                         raised
                         name='pencil'
                         type='font-awesome'
                         color=' #512DA8'
                         onPress={() => props.toggleModal()}
+                    />
+                    <Icon
+                        raised
+                        reverse
+                        name='share'
+                        type='font-awesome'
+                        color='#51D2A8'
+                        style={styles.cardItem}
+                        onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)} 
                     />
                 </Card>
             </Animatable.View>
@@ -167,8 +185,11 @@ function RenderDish (props){
         );  
     }
 }
+
 function RenderComments(props){
+
     const comments = props.comments;
+
     const renderCommentItem = ({item , index}) => {
         return(
             <View key={index} style={{margin:10}}>
