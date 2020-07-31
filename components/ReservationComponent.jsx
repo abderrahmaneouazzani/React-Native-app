@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Text, View, ScrollView, Picker, StyleSheet, Switch, Button, Alert} from "react-native";
 import * as Animatable from "react-native-animatable";
 import DatePicker from "react-native-datepicker";
+import { Permissions, Notifications } from 'expo';
 
 class Reservation extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Reservation extends Component {
     title: "Reserve Table"
   };
 
- /* async obtainNotificationPermission() {
+ async obtainNotificationPermission() {
     let permission = await Permissions.getAsync(
       Permissions.USER_FACING_NOTIFICATIONS
     );
@@ -71,11 +72,11 @@ class Reservation extends Component {
         console.log("Successfully created event");
       })
       .catch(err => console.log("Can not create event", err));
-  }; */
+  };
 
   handleReservation = () => {
     console.log(this.state);
-    // this.toggleModal();
+    this.toggleModal();
     Alert.alert(
       "Your Reservation OK?",
       `No. of Guests: ${this.state.guests}\nSmoking? ${
@@ -90,7 +91,7 @@ class Reservation extends Component {
         {
           text: "Ok",
           onPress: () => {
-          //  this.presentLocalNotification(this.state.date);
+            this.presentLocalNotification(this.state.date);
             this.addReservationToCalendar(this.state.date);
             this.resetForm();
           }
@@ -143,7 +144,7 @@ class Reservation extends Component {
             />
           </View>
           <View style={styles.formRow}>
-            <Text style={styles.formLabeL}>Smoking/Non-Smoking?</Text>
+            <Text style={styles.formLabeL}>Date</Text>
             <DatePicker
               style={{ flex: 1, marginRight: 20 }}
               date={this.state.date}
